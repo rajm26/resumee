@@ -1,0 +1,2008 @@
+/* ==========================================================================
+   RAJ MISHRA — A PERSONAL JOURNAL · KEPT ON A POND
+   Inspired by dhrovya-portfolio.vercel.app
+   Theme: Botanical Emerald Pond & Archival Parchment Stationery
+   Pure HTML5 & CSS3 Architecture | Zero Frameworks | 100% GitHub Pages Ready
+   ========================================================================== */
+
+/* --------------------------------------------------------------------------
+   1. Design Tokens & CSS Variables
+   -------------------------------------------------------------------------- */
+:root {
+  /* The Emerald Pond Palette (Dark Backgrounds) */
+  --pond-abyss: #020b07;
+  --pond-deep: #04130d;
+  --pond-base: #071d17;
+  --pond-surface: #0a2e1e;
+  --pond-water-tint: rgba(10, 46, 30, 0.7);
+
+  /* The Journal & Parchment Palette (Warm Paper Sheets) */
+  --paper-cream: #f4eee1;
+  --paper-parchment: #ebe5d5;
+  --paper-aged: #e8e1cf;
+  --paper-warm-tone: #dfd7c3;
+  --paper-border: rgba(45, 106, 79, 0.18);
+  --paper-rule: rgba(45, 106, 79, 0.08);
+
+  /* The Cutting Mat (Dark Green Self-Healing Drafting Pad) */
+  --mat-bg: #0d2319;
+  --mat-grid: rgba(64, 145, 108, 0.15);
+  --mat-border: #1b4332;
+
+  /* Botanical Inks & Accents */
+  --ink-primary: #121c17;
+  --ink-charcoal: #223028;
+  --ink-secondary: #4b5d52;
+  --ink-dim: #718378;
+  --ink-light-text: #e0eedf;
+  
+  --ink-forest: #1b4332;
+  --ink-botanical: #2d6a4f;
+  --ink-leaf: #40916c;
+  --ink-sprout: #52b788;
+  --ink-terracotta: #e76f51;
+  --ink-gold: #d4a373;
+
+  /* Typography Stacks */
+  --font-display: 'Noto Serif Display', Georgia, serif;
+  --font-serif: 'Cormorant Garamond', Garamond, Georgia, serif;
+  --font-sans: 'Instrument Sans', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  --font-hand: 'Caveat', cursive, sans-serif;
+
+  /* Elevation Shadows */
+  --shadow-sheet: 0 30px 70px -15px rgba(0, 0, 0, 0.65), 0 0 0 1px rgba(0, 0, 0, 0.08);
+  --shadow-notebook: 0 20px 50px -10px rgba(0, 0, 0, 0.7), 0 0 0 1px rgba(255, 255, 255, 0.05);
+  --shadow-polaroid: 0 14px 28px -6px rgba(0, 0, 0, 0.25), 0 0 0 1px rgba(0, 0, 0, 0.06);
+
+  /* Layout Spacing */
+  --container-width: 1140px;
+  --header-height: 76px;
+  --radius-pill: 9999px;
+  --radius-card: 16px;
+  --radius-sheet: 20px;
+}
+
+/* --------------------------------------------------------------------------
+   2. Reset & Baseline
+   -------------------------------------------------------------------------- */
+*, *::before, *::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+html {
+  font-size: 16px;
+  scroll-behavior: smooth;
+  scroll-padding-top: 100px;
+  background-color: var(--pond-base);
+  color: var(--ink-light-text);
+  -webkit-font-smoothing: antialiased;
+  text-rendering: optimizeLegibility;
+}
+
+body {
+  font-family: var(--font-sans);
+  line-height: 1.6;
+  background-color: var(--pond-base);
+  color: var(--ink-light-text);
+  overflow-x: hidden;
+  position: relative;
+}
+
+a {
+  color: inherit;
+  text-decoration: none;
+  transition: all 0.2s ease;
+}
+
+ul {
+  list-style: none;
+}
+
+img, svg {
+  display: block;
+}
+
+.svg-defs {
+  position: absolute;
+  width: 0;
+  height: 0;
+  overflow: hidden;
+}
+
+/* --------------------------------------------------------------------------
+   3. Floating Glass Pill Navigation Header
+   -------------------------------------------------------------------------- */
+.floating-header {
+  position: fixed;
+  top: 18px;
+  left: 0;
+  width: 100%;
+  z-index: 1000;
+  pointer-events: none; /* Allows clicks around header */
+  display: flex;
+  justify-content: center;
+  padding: 0 16px;
+}
+
+.nav-shell {
+  pointer-events: auto;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  background: rgba(235, 229, 213, 0.88);
+  border: 1px solid rgba(255, 255, 255, 0.5);
+  box-shadow: 0 12px 36px -8px rgba(0, 0, 0, 0.45), 0 0 0 1px rgba(0, 0, 0, 0.06);
+  border-radius: var(--radius-pill);
+  padding: 8px 14px;
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  max-width: var(--container-width);
+  width: 100%;
+  transition: transform 0.3s ease;
+}
+
+.brand-crest {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  color: var(--ink-primary);
+  padding-left: 4px;
+}
+
+.crest-svg {
+  width: 36px;
+  height: 36px;
+  flex-shrink: 0;
+}
+
+.crest-text {
+  display: flex;
+  flex-direction: column;
+}
+
+.crest-name {
+  font-family: var(--font-display);
+  font-size: 0.9375rem;
+  font-weight: 700;
+  line-height: 1.1;
+  letter-spacing: -0.01em;
+}
+
+.crest-vol {
+  font-size: 0.6875rem;
+  color: var(--ink-botanical);
+  font-family: var(--font-sans);
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  font-weight: 600;
+}
+
+.pill-nav-list {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  background: rgba(45, 106, 79, 0.06);
+  padding: 4px;
+  border-radius: var(--radius-pill);
+}
+
+.nav-item {
+  font-size: 0.8125rem;
+  font-weight: 500;
+  color: var(--ink-charcoal);
+  padding: 6px 14px;
+  border-radius: var(--radius-pill);
+  transition: all 0.2s ease;
+  white-space: nowrap;
+}
+
+.nav-item:hover {
+  color: var(--ink-forest);
+  background: rgba(255, 255, 255, 0.6);
+}
+
+.nav-contact-pill {
+  background: #FFFFFF;
+  color: var(--ink-forest);
+  font-weight: 600;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+}
+
+.header-action-group {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.icon-circle-btn {
+  width: 38px;
+  height: 38px;
+  border-radius: 50%;
+  background: #FFFFFF;
+  color: var(--ink-charcoal);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.08);
+  border: 1px solid rgba(0, 0, 0, 0.04);
+  transition: all 0.2s ease;
+}
+
+.icon-circle-btn:hover {
+  transform: translateY(-2px);
+  color: var(--ink-botanical);
+  box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15);
+}
+
+/* --------------------------------------------------------------------------
+   4. The Pond & Shared Chapter Geometry
+   -------------------------------------------------------------------------- */
+.chapter-pond {
+  background-color: var(--pond-base);
+  position: relative;
+  overflow: hidden;
+  padding: 130px 24px 100px;
+}
+
+.chapter-container {
+  max-width: var(--container-width);
+  margin: 0 auto;
+  position: relative;
+  z-index: 2;
+}
+
+.chapter-meta-line {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  font-size: 0.8125rem;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--ink-sprout);
+  font-weight: 600;
+  margin-bottom: 24px;
+}
+
+.chapter-meta-line.meta-light {
+  color: #74c69d;
+}
+
+.meta-tag {
+  color: #b7e4c7;
+}
+
+.chapter-header-box {
+  margin-bottom: 50px;
+}
+
+.chapter-serif-title {
+  font-family: var(--font-display);
+  font-size: clamp(2rem, 4vw, 3rem);
+  font-weight: 700;
+  color: #f4eee1;
+  line-height: 1.15;
+  letter-spacing: -0.02em;
+}
+
+.chapter-serif-sub {
+  font-family: var(--font-serif);
+  font-size: 1.35rem;
+  font-style: italic;
+  color: #95d5b2;
+  margin-top: 8px;
+}
+
+/* --------------------------------------------------------------------------
+   5. Interactive Animated Pond Elements (Ripples, Koi, Lily Pads)
+   -------------------------------------------------------------------------- */
+.pond-ripple {
+  position: absolute;
+  border-radius: 50%;
+  border: 1px solid rgba(82, 183, 136, 0.25);
+  pointer-events: none;
+  animation: pond-ring 7s cubic-bezier(0.1, 0.8, 0.3, 1) infinite;
+  z-index: 1;
+}
+
+.ripple-1 {
+  width: 500px;
+  height: 500px;
+  top: 15%;
+  right: 10%;
+  animation-delay: 0s;
+}
+
+.ripple-2 {
+  width: 700px;
+  height: 700px;
+  top: 45%;
+  left: 5%;
+  animation-delay: 2.5s;
+}
+
+.ripple-3 {
+  width: 600px;
+  height: 600px;
+  bottom: 5%;
+  right: 25%;
+  animation-delay: 4.5s;
+}
+
+@keyframes pond-ring {
+  0% { transform: scale(0.2); opacity: 0.8; }
+  50% { opacity: 0.4; }
+  100% { transform: scale(1.6); opacity: 0; }
+}
+
+/* Koi Fish Swimming */
+.koi-fish {
+  position: absolute;
+  width: 90px;
+  height: 36px;
+  pointer-events: none;
+  z-index: 1;
+  opacity: 0.35;
+  filter: blur(1.5px);
+}
+
+.koi-1 {
+  top: 30%;
+  left: -120px;
+  animation: koi-swim 28s linear infinite;
+}
+
+.koi-2 {
+  bottom: 25%;
+  right: -120px;
+  animation: koi-swim-reverse 34s linear infinite;
+}
+
+.koi-body {
+  width: 60px;
+  height: 24px;
+  background: radial-gradient(ellipse at 30% 50%, #e76f51 0%, #d94e34 50%, #1b4332 100%);
+  border-radius: 50% 40% 40% 50%;
+}
+
+.koi-tail {
+  position: absolute;
+  right: -24px;
+  top: 4px;
+  width: 28px;
+  height: 16px;
+  background: #e76f51;
+  border-radius: 20% 80% 80% 20%;
+  transform-origin: left center;
+  animation: koi-tail 0.9s ease-in-out infinite alternate;
+}
+
+@keyframes koi-swim {
+  0% { transform: translate(0, 0) rotate(15deg); }
+  50% { transform: translate(120vw, 150px) rotate(5deg); }
+  100% { transform: translate(140vw, 300px) rotate(25deg); }
+}
+
+@keyframes koi-swim-reverse {
+  0% { transform: translate(0, 0) rotate(-165deg); }
+  50% { transform: translate(-120vw, -120px) rotate(-175deg); }
+  100% { transform: translate(-140vw, -240px) rotate(-155deg); }
+}
+
+@keyframes koi-tail {
+  0% { transform: rotate(-25deg); }
+  100% { transform: rotate(25deg); }
+}
+
+/* Lily Pads */
+.lily-pad {
+  position: absolute;
+  width: 140px;
+  height: 140px;
+  background: radial-gradient(circle at 40% 40%, #2d6a4f 0%, #1b4332 80%, #0d2319 100%);
+  border-radius: 50%;
+  clip-path: polygon(0% 0%, 100% 0%, 100% 100%, 50% 50%, 0% 100%);
+  opacity: 0.45;
+  pointer-events: none;
+  z-index: 1;
+  animation: lily-bob 6s ease-in-out infinite alternate;
+}
+
+.pad-1 {
+  top: 18%;
+  left: 6%;
+  transform: rotate(20deg);
+}
+
+.pad-2 {
+  top: 60%;
+  right: 8%;
+  transform: rotate(-45deg) scale(0.85);
+  animation-delay: -3s;
+}
+
+.pad-3 {
+  bottom: 12%;
+  left: 20%;
+  transform: rotate(110deg) scale(0.7);
+  animation-delay: -1.5s;
+}
+
+@keyframes lily-bob {
+  0% { transform: translateY(0) rotate(var(--rot, 0deg)); }
+  100% { transform: translateY(-12px) rotate(calc(var(--rot, 0deg) + 4deg)); }
+}
+
+/* --------------------------------------------------------------------------
+   6. Chapter 01: Hero Presentation
+   -------------------------------------------------------------------------- */
+.hero-chapter {
+  min-height: 94vh;
+  display: flex;
+  align-items: center;
+  padding-top: 140px;
+  padding-bottom: 90px;
+}
+
+.hero-container {
+  display: flex;
+  flex-direction: column;
+}
+
+.hero-giant-title {
+  font-family: var(--font-display);
+  font-size: clamp(3.5rem, 9.5vw, 7.8rem);
+  font-weight: 800;
+  line-height: 0.95;
+  letter-spacing: -0.04em;
+  color: #f4eee1;
+  margin-bottom: 24px;
+}
+
+.hero-giant-title .title-first {
+  display: block;
+}
+
+.hero-giant-title .title-last {
+  display: block;
+  font-style: italic;
+  font-weight: 400;
+  color: #b7e4c7;
+}
+
+.hero-lyrical-sub {
+  font-family: var(--font-serif);
+  font-size: clamp(1.4rem, 2.5vw, 2.1rem);
+  font-style: italic;
+  color: #e8e1cf;
+  line-height: 1.35;
+  max-width: 780px;
+  margin-bottom: 24px;
+}
+
+.hero-handwritten-note {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  font-family: var(--font-hand);
+  font-size: 1.55rem;
+  color: #74c69d;
+  line-height: 1.2;
+  margin-bottom: 36px;
+}
+
+.handwritten-arrow {
+  font-size: 1.8rem;
+  color: #95d5b2;
+}
+
+.hero-status-pill {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  background: rgba(13, 35, 25, 0.85);
+  border: 1px solid rgba(82, 183, 136, 0.4);
+  border-radius: var(--radius-pill);
+  padding: 10px 22px;
+  width: fit-content;
+  margin-bottom: 44px;
+  backdrop-filter: blur(12px);
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.4);
+}
+
+.pulse-indicator {
+  width: 9px;
+  height: 9px;
+  border-radius: 50%;
+  background: var(--ink-sprout);
+  box-shadow: 0 0 12px var(--ink-sprout);
+  animation: pulse-dot 2s infinite;
+}
+
+@keyframes pulse-dot {
+  0% { transform: scale(0.9); opacity: 0.7; }
+  50% { transform: scale(1.35); opacity: 1; }
+  100% { transform: scale(0.9); opacity: 0.7; }
+}
+
+.status-now {
+  font-family: var(--font-serif);
+  font-style: italic;
+  font-size: 1.05rem;
+  color: #f4eee1;
+}
+
+.status-details {
+  font-size: 0.875rem;
+  font-weight: 500;
+  color: #b7e4c7;
+}
+
+.hero-pond-metrics {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 16px;
+}
+
+.pond-metric-chip {
+  background: rgba(2, 11, 7, 0.75);
+  border: 1px solid rgba(82, 183, 136, 0.25);
+  border-radius: 12px;
+  padding: 14px 20px;
+  display: flex;
+  flex-direction: column;
+}
+
+.chip-num {
+  font-family: var(--font-display);
+  font-size: 1.6rem;
+  font-weight: 700;
+  color: #f4eee1;
+}
+
+.chip-lbl {
+  font-size: 0.72rem;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: #95d5b2;
+  font-weight: 600;
+}
+
+/* --------------------------------------------------------------------------
+   7. Chapter 02: Parchment Book Sheet (About)
+   -------------------------------------------------------------------------- */
+.chapter-sheet-wrap {
+  background-color: var(--pond-base);
+  padding: 60px 20px 100px;
+  display: flex;
+  justify-content: center;
+  position: relative;
+}
+
+.parchment-sheet {
+  background-color: var(--paper-cream);
+  color: var(--ink-primary);
+  max-width: var(--container-width);
+  width: 100%;
+  border-radius: var(--radius-sheet);
+  box-shadow: var(--shadow-sheet);
+  padding: 56px 64px;
+  position: relative;
+  border: 1px solid rgba(45, 106, 79, 0.15);
+}
+
+/* Skeuomorphic Scotch Tape Strip */
+.scotch-tape {
+  position: absolute;
+  width: 120px;
+  height: 34px;
+  background: rgba(255, 255, 255, 0.68);
+  border: 1px solid rgba(255, 255, 255, 0.85);
+  box-shadow: 0 3px 8px rgba(0, 0, 0, 0.12);
+  backdrop-filter: blur(4px);
+  pointer-events: none;
+  z-index: 5;
+}
+
+.tape-top-right {
+  top: -14px;
+  right: 50px;
+  transform: rotate(4deg);
+}
+
+.tape-top-left {
+  top: -14px;
+  left: 50px;
+  transform: rotate(-4deg);
+}
+
+.sheet-page-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding-bottom: 20px;
+  margin-bottom: 44px;
+  border-bottom: 1px dashed rgba(45, 106, 79, 0.25);
+  font-family: var(--font-serif);
+  font-style: italic;
+  font-size: 1.05rem;
+  color: var(--ink-botanical);
+}
+
+.about-editorial-grid {
+  display: grid;
+  grid-template-columns: 320px 1fr;
+  gap: 60px;
+  align-items: start;
+}
+
+/* Polaroid Photo Card */
+.polaroid-frame {
+  background: #FFFFFF;
+  padding: 16px 16px 24px;
+  border-radius: 4px;
+  box-shadow: var(--shadow-polaroid);
+  position: relative;
+  transform: rotate(-2deg);
+  transition: transform 0.3s ease;
+}
+
+.polaroid-frame:hover {
+  transform: rotate(0deg) scale(1.02);
+}
+
+.polaroid-tape {
+  position: absolute;
+  top: -12px;
+  left: 30%;
+  width: 90px;
+  height: 26px;
+  background: rgba(235, 229, 213, 0.75);
+  border: 1px solid rgba(255, 255, 255, 0.7);
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  transform: rotate(-3deg);
+}
+
+.polaroid-photo {
+  height: 270px;
+  background: linear-gradient(135deg, #0d2319 0%, #1b4332 50%, #2d6a4f 100%);
+  border-radius: 2px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+  overflow: hidden;
+}
+
+.photo-monogram-shield {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 8px;
+}
+
+.shield-initials {
+  font-family: var(--font-display);
+  font-size: 4rem;
+  font-weight: 800;
+  color: var(--paper-cream);
+  line-height: 1;
+}
+
+.shield-badge {
+  font-size: 0.75rem;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: #95d5b2;
+  font-family: var(--font-sans);
+  font-weight: 600;
+}
+
+.polaroid-caption {
+  font-family: var(--font-hand);
+  font-size: 1.15rem;
+  color: var(--ink-charcoal);
+  line-height: 1.35;
+  margin-top: 16px;
+  text-align: center;
+}
+
+.polaroid-sign {
+  font-family: var(--font-hand);
+  font-size: 1.35rem;
+  font-weight: 700;
+  color: var(--ink-botanical);
+  text-align: right;
+  margin-top: 8px;
+}
+
+.margin-annotation {
+  margin-top: 36px;
+  padding: 18px;
+  background: rgba(45, 106, 79, 0.05);
+  border-left: 3px solid var(--ink-botanical);
+  font-family: var(--font-serif);
+  font-style: italic;
+  font-size: 1.15rem;
+  color: var(--ink-charcoal);
+  line-height: 1.5;
+}
+
+.annotation-sig {
+  display: block;
+  font-family: var(--font-sans);
+  font-size: 0.75rem;
+  font-style: normal;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: var(--ink-botanical);
+  font-weight: 700;
+  margin-top: 8px;
+}
+
+/* 4 Numbered Essay Columns */
+.about-essay-column {
+  display: flex;
+  flex-direction: column;
+  gap: 36px;
+}
+
+.essay-block {
+  display: grid;
+  grid-template-columns: 50px 1fr;
+  gap: 20px;
+  align-items: start;
+}
+
+.essay-num {
+  font-family: var(--font-display);
+  font-size: 1.6rem;
+  font-weight: 700;
+  color: var(--ink-botanical);
+  opacity: 0.8;
+  line-height: 1;
+  padding-top: 4px;
+}
+
+.essay-body h3 {
+  font-family: var(--font-display);
+  font-size: 1.45rem;
+  font-weight: 700;
+  color: var(--ink-primary);
+  margin-bottom: 10px;
+  letter-spacing: -0.01em;
+}
+
+.essay-body p {
+  font-family: var(--font-serif);
+  font-size: 1.1875rem;
+  color: var(--ink-charcoal);
+  line-height: 1.7;
+}
+
+.essay-body strong {
+  color: var(--ink-primary);
+  font-weight: 600;
+}
+
+/* --------------------------------------------------------------------------
+   8. Chapter 03: The Desk Notebook with Tabs (Pure CSS)
+   -------------------------------------------------------------------------- */
+.ventures-chapter {
+  padding-bottom: 120px;
+}
+
+.notebook-desk {
+  background: var(--mat-bg);
+  border: 1px solid var(--mat-border);
+  border-radius: var(--radius-sheet);
+  box-shadow: var(--shadow-notebook);
+  padding: 36px;
+  position: relative;
+}
+
+/* Hide Radio Buttons */
+.tab-radio {
+  display: none;
+}
+
+/* Index Tabs Header */
+.notebook-index-tabs {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-bottom: 24px;
+  padding-bottom: 16px;
+  border-bottom: 1px dashed rgba(64, 145, 108, 0.3);
+}
+
+.index-tab-label {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 10px 18px;
+  background: rgba(255, 255, 255, 0.04);
+  border: 1px solid rgba(64, 145, 108, 0.25);
+  border-radius: var(--radius-pill);
+  cursor: pointer;
+  font-size: 0.8125rem;
+  color: #b7e4c7;
+  font-weight: 500;
+  transition: all 0.2s ease;
+}
+
+.tab-idx {
+  font-family: var(--font-display);
+  font-size: 0.875rem;
+  color: #74c69d;
+  font-weight: 700;
+}
+
+.index-tab-label:hover {
+  background: rgba(82, 183, 136, 0.15);
+  border-color: #52b788;
+  color: #FFFFFF;
+}
+
+/* Notebook Parchment Page */
+.notebook-sheet {
+  background: var(--paper-parchment);
+  color: var(--ink-primary);
+  border-radius: 12px;
+  padding: 44px 50px;
+  box-shadow: 0 15px 35px rgba(0, 0, 0, 0.4), inset 0 0 40px rgba(0, 0, 0, 0.03);
+  position: relative;
+  min-height: 480px;
+  border: 1px solid rgba(45, 106, 79, 0.2);
+}
+
+.notebook-ruling-lines {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-image: repeating-linear-gradient(to bottom, transparent, transparent 31px, var(--paper-rule) 32px);
+  pointer-events: none;
+  border-radius: 12px;
+}
+
+/* Notebook Page Visibility via Pure CSS Radio Checked */
+.notebook-page {
+  display: none;
+  animation: page-fade 0.35s ease forwards;
+  position: relative;
+  z-index: 2;
+}
+
+@keyframes page-fade {
+  from { opacity: 0; transform: translateY(6px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+#tab-v1:checked ~ .notebook-index-tabs .tab-label-1,
+#tab-v2:checked ~ .notebook-index-tabs .tab-label-2,
+#tab-v3:checked ~ .notebook-index-tabs .tab-label-3,
+#tab-v4:checked ~ .notebook-index-tabs .tab-label-4,
+#tab-v5:checked ~ .notebook-index-tabs .tab-label-5 {
+  background: var(--paper-parchment);
+  color: var(--ink-forest);
+  border-color: var(--paper-parchment);
+  font-weight: 700;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.25);
+}
+
+#tab-v1:checked ~ .notebook-sheet .page-v1,
+#tab-v2:checked ~ .notebook-sheet .page-v2,
+#tab-v3:checked ~ .notebook-sheet .page-v3,
+#tab-v4:checked ~ .notebook-sheet .page-v4,
+#tab-v5:checked ~ .notebook-sheet .page-v5 {
+  display: block;
+}
+
+.page-badge-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 16px;
+  font-family: var(--font-sans);
+  font-size: 0.75rem;
+  letter-spacing: 0.1em;
+  font-weight: 700;
+  color: var(--ink-botanical);
+}
+
+.page-venture-name {
+  font-family: var(--font-display);
+  font-size: clamp(1.8rem, 3.2vw, 2.5rem);
+  font-weight: 700;
+  color: var(--ink-primary);
+  line-height: 1.15;
+  letter-spacing: -0.02em;
+}
+
+.page-venture-role {
+  font-family: var(--font-serif);
+  font-style: italic;
+  font-size: 1.25rem;
+  color: var(--ink-secondary);
+  margin-top: 4px;
+  margin-bottom: 24px;
+}
+
+.page-metric-ribbon {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 16px;
+  background: rgba(255, 255, 255, 0.65);
+  border: 1px solid rgba(45, 106, 79, 0.15);
+  border-radius: 8px;
+  padding: 16px 20px;
+  margin-bottom: 28px;
+}
+
+.ribbon-box {
+  display: flex;
+  flex-direction: column;
+}
+
+.r-num {
+  font-family: var(--font-display);
+  font-size: 1.7rem;
+  font-weight: 800;
+  color: var(--ink-forest);
+  line-height: 1.1;
+}
+
+.r-lbl {
+  font-size: 0.75rem;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+  color: var(--ink-dim);
+  font-weight: 600;
+}
+
+.page-prose {
+  font-family: var(--font-serif);
+  font-size: 1.1875rem;
+  color: var(--ink-charcoal);
+  line-height: 1.75;
+}
+
+.page-prose p {
+  margin-bottom: 16px;
+}
+
+.page-bullets {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  margin-bottom: 28px;
+  padding-left: 4px;
+}
+
+.page-bullets li {
+  position: relative;
+  padding-left: 20px;
+}
+
+.page-bullets li::before {
+  content: '✦';
+  position: absolute;
+  left: 0;
+  color: var(--ink-botanical);
+  font-size: 0.85rem;
+}
+
+.page-hand-marginalia {
+  border-top: 1px dashed rgba(45, 106, 79, 0.2);
+  padding-top: 18px;
+}
+
+.margin-pencil {
+  font-family: var(--font-hand);
+  font-size: 1.35rem;
+  color: var(--ink-botanical);
+  font-weight: 600;
+}
+
+/* --------------------------------------------------------------------------
+   9. Chapter 04: Field Notes (Vertical Botanical Timeline)
+   -------------------------------------------------------------------------- */
+.timeline-chapter {
+  background-color: var(--pond-base);
+  padding-bottom: 120px;
+}
+
+.botanical-timeline {
+  position: relative;
+  max-width: 860px;
+  margin: 0 auto;
+  padding: 40px 0;
+}
+
+.vine-line {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: 50%;
+  width: 2px;
+  background: linear-gradient(to bottom, #1b4332 0%, #40916c 50%, #1b4332 100%);
+  transform: translateX(-50%);
+}
+
+.timeline-leaf {
+  position: relative;
+  margin-bottom: 56px;
+  width: 50%;
+}
+
+.leaf-left {
+  left: 0;
+  padding-right: 48px;
+  text-align: right;
+}
+
+.leaf-right {
+  left: 50%;
+  padding-left: 48px;
+  text-align: left;
+}
+
+.leaf-node {
+  position: absolute;
+  top: 14px;
+  width: 32px;
+  height: 32px;
+  background: var(--mat-bg);
+  border: 2px solid #52b788;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 3;
+  box-shadow: 0 0 15px rgba(82, 183, 136, 0.35);
+}
+
+.leaf-left .leaf-node {
+  right: -16px;
+}
+
+.leaf-right .leaf-node {
+  left: -16px;
+}
+
+.node-blossom {
+  font-size: 0.9rem;
+  line-height: 1;
+}
+
+.leaf-card {
+  background: rgba(13, 35, 25, 0.9);
+  border: 1px solid rgba(82, 183, 136, 0.25);
+  border-radius: var(--radius-card);
+  padding: 24px;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.4);
+  transition: transform 0.25s ease, border-color 0.25s ease;
+}
+
+.leaf-card:hover {
+  transform: translateY(-3px);
+  border-color: #52b788;
+}
+
+.card-date-badge {
+  font-family: var(--font-sans);
+  font-size: 0.75rem;
+  font-weight: 700;
+  color: #74c69d;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  margin-bottom: 8px;
+}
+
+.leaf-title {
+  font-family: var(--font-display);
+  font-size: 1.25rem;
+  font-weight: 700;
+  color: #f4eee1;
+  margin-bottom: 4px;
+}
+
+.leaf-org {
+  font-family: var(--font-serif);
+  font-style: italic;
+  font-size: 1rem;
+  color: #95d5b2;
+  margin-bottom: 12px;
+}
+
+.leaf-desc {
+  font-size: 0.9375rem;
+  color: #d8f3dc;
+  line-height: 1.6;
+}
+
+/* --------------------------------------------------------------------------
+   10. Chapter 05: The Learning Curve (4-Quadrant Broadsheet)
+   -------------------------------------------------------------------------- */
+.broadsheet-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 36px;
+}
+
+.broadsheet-quadrant {
+  padding: 24px;
+  background: rgba(255, 255, 255, 0.45);
+  border: 1px dashed rgba(45, 106, 79, 0.3);
+  border-radius: 8px;
+  position: relative;
+}
+
+.quad-roman {
+  position: absolute;
+  top: 14px;
+  right: 18px;
+  font-family: var(--font-display);
+  font-size: 2rem;
+  font-weight: 800;
+  color: rgba(45, 106, 79, 0.2);
+}
+
+.quad-title {
+  font-family: var(--font-display);
+  font-size: 1.3rem;
+  font-weight: 700;
+  color: var(--ink-primary);
+  margin-bottom: 4px;
+}
+
+.quad-sub {
+  font-family: var(--font-serif);
+  font-style: italic;
+  font-size: 0.9375rem;
+  color: var(--ink-secondary);
+  margin-bottom: 20px;
+}
+
+.quad-item {
+  margin-bottom: 16px;
+  padding-bottom: 14px;
+  border-bottom: 1px solid rgba(45, 106, 79, 0.1);
+}
+
+.quad-item:last-child {
+  margin-bottom: 0;
+  padding-bottom: 0;
+  border-bottom: none;
+}
+
+.quad-head {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-size: 1rem;
+  color: var(--ink-primary);
+  margin-bottom: 4px;
+}
+
+.quad-grade {
+  font-size: 0.8125rem;
+  font-weight: 700;
+  color: var(--ink-forest);
+  background: rgba(45, 106, 79, 0.1);
+  padding: 2px 8px;
+  border-radius: var(--radius-pill);
+}
+
+.quad-status-badge {
+  font-size: 0.75rem;
+  font-weight: 700;
+  color: #FFFFFF;
+  background: var(--ink-botanical);
+  padding: 2px 10px;
+  border-radius: var(--radius-pill);
+}
+
+.quad-degree {
+  font-weight: 600;
+  color: var(--ink-charcoal);
+  font-size: 0.9375rem;
+}
+
+.quad-detail {
+  font-size: 0.85rem;
+  color: var(--ink-dim);
+}
+
+.quad-notes {
+  font-family: var(--font-serif);
+  font-style: italic;
+  font-size: 0.9375rem;
+  color: var(--ink-secondary);
+  margin-top: 4px;
+}
+
+/* --------------------------------------------------------------------------
+   11. Chapter 06: Cutting Mat & Embedded Physical Resume
+   -------------------------------------------------------------------------- */
+.cutting-mat-chapter {
+  background-color: var(--pond-base);
+  padding-top: 70px;
+  padding-bottom: 100px;
+}
+
+.mat-surface {
+  background-color: var(--mat-bg);
+  border: 2px solid var(--mat-border);
+  border-radius: var(--radius-sheet);
+  box-shadow: 0 25px 60px rgba(0, 0, 0, 0.8), inset 0 0 80px rgba(0, 0, 0, 0.4);
+  padding: 48px;
+  position: relative;
+}
+
+.mat-grid-lines {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-size: 30px 30px;
+  background-image: 
+    linear-gradient(to right, var(--mat-grid) 1px, transparent 1px),
+    linear-gradient(to bottom, var(--mat-grid) 1px, transparent 1px);
+  pointer-events: none;
+  border-radius: var(--radius-sheet);
+}
+
+.mat-sticky-note {
+  position: absolute;
+  top: -24px;
+  right: 48px;
+  width: 260px;
+  background: #fefae0;
+  border: 1px solid rgba(0, 0, 0, 0.08);
+  padding: 20px;
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.35);
+  transform: rotate(3deg);
+  z-index: 5;
+}
+
+.note-pin {
+  width: 14px;
+  height: 14px;
+  background: #e76f51;
+  border-radius: 50%;
+  margin: 0 auto 10px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
+}
+
+.note-text {
+  font-family: var(--font-hand);
+  font-size: 1.25rem;
+  color: #2b2d42;
+  line-height: 1.35;
+}
+
+.note-sig {
+  display: block;
+  font-family: var(--font-hand);
+  font-size: 1.35rem;
+  font-weight: 700;
+  color: #e76f51;
+  text-align: right;
+  margin-top: 6px;
+}
+
+.mat-fragments-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 24px;
+  margin-bottom: 56px;
+  position: relative;
+  z-index: 2;
+}
+
+.fragment-card {
+  background: #FFFFFF;
+  padding: 14px 14px 20px;
+  border-radius: 4px;
+  box-shadow: var(--shadow-polaroid);
+  position: relative;
+  transition: transform 0.25s ease;
+}
+
+.fragment-card:hover {
+  transform: translateY(-4px) rotate(1deg);
+}
+
+.fragment-tape {
+  position: absolute;
+  top: -10px;
+  left: 32%;
+  width: 70px;
+  height: 22px;
+  background: rgba(255, 255, 255, 0.7);
+  border: 1px solid rgba(255, 255, 255, 0.85);
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  transform: rotate(-2deg);
+}
+
+.fragment-visual {
+  height: 130px;
+  border-radius: 2px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: 12px;
+}
+
+.frag-icon {
+  font-size: 2.5rem;
+}
+
+.f-growth { background: linear-gradient(135deg, #10b981, #047857); }
+.f-telegram { background: linear-gradient(135deg, #0284c7, #0369a1); }
+.f-live { background: linear-gradient(135deg, #e11d48, #9333ea); }
+.f-database { background: linear-gradient(135deg, #475569, #1e293b); }
+.f-finance { background: linear-gradient(135deg, #d97706, #b45309); }
+.f-shield { background: linear-gradient(135deg, #059669, #065f46); }
+
+.fragment-meta .frag-num {
+  font-size: 0.6875rem;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--ink-dim);
+  font-weight: 700;
+}
+
+.fragment-meta .frag-title {
+  font-family: var(--font-display);
+  font-size: 1.1rem;
+  font-weight: 700;
+  color: var(--ink-primary);
+  margin-top: 2px;
+  margin-bottom: 4px;
+}
+
+.fragment-meta .frag-desc {
+  font-size: 0.8125rem;
+  color: var(--ink-secondary);
+  line-height: 1.5;
+}
+
+/* Embedded Physical 1-Page Minimalist Resume Sheet */
+.mat-resume-container {
+  display: flex;
+  justify-content: center;
+  position: relative;
+  z-index: 2;
+}
+
+.resume-sheet-paper {
+  background: #FFFFFF;
+  color: #111827;
+  max-width: 900px;
+  width: 100%;
+  padding: 44px 50px;
+  box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.6), 0 0 0 1px rgba(0, 0, 0, 0.08);
+  border-radius: 4px;
+}
+
+.resume-paper-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  margin-bottom: 18px;
+}
+
+.r-clean-name {
+  font-family: var(--font-display);
+  font-size: 2.2rem;
+  font-weight: 800;
+  letter-spacing: 0.05em;
+  line-height: 1;
+}
+
+.r-clean-sub {
+  font-size: 0.875rem;
+  color: #4b5563;
+  margin-top: 6px;
+  font-weight: 500;
+}
+
+.r-top-right {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  gap: 6px;
+}
+
+.resume-download-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  background: var(--ink-forest);
+  color: #FFFFFF;
+  font-size: 0.8125rem;
+  font-weight: 600;
+  padding: 8px 16px;
+  border-radius: var(--radius-pill);
+  transition: background 0.2s ease;
+}
+
+.resume-download-btn:hover {
+  background: var(--ink-botanical);
+}
+
+.r-fluff-tag {
+  font-family: var(--font-serif);
+  font-style: italic;
+  font-size: 0.8125rem;
+  color: #9ca3af;
+}
+
+.r-clean-hr {
+  border: none;
+  height: 1px;
+  background: #e5e7eb;
+  margin-bottom: 24px;
+}
+
+.r-columns-layout {
+  display: grid;
+  grid-template-columns: 280px 1fr;
+  gap: 40px;
+}
+
+.r-sec-title {
+  font-family: var(--font-sans);
+  font-size: 0.75rem;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--ink-botanical);
+  font-weight: 700;
+  border-bottom: 1px solid #e5e7eb;
+  padding-bottom: 4px;
+  margin-bottom: 12px;
+}
+
+.r-block {
+  margin-bottom: 14px;
+  font-size: 0.875rem;
+  line-height: 1.5;
+}
+
+.r-block strong {
+  color: #111827;
+  display: block;
+}
+
+.r-block p {
+  color: #4b5563;
+}
+
+.r-skills-line {
+  font-size: 0.85rem;
+  color: #374151;
+  line-height: 1.6;
+}
+
+/* --------------------------------------------------------------------------
+   12. Chapter 07 & Footer: The Last Page & The Deep Pond
+   -------------------------------------------------------------------------- */
+.final-letter-sheet {
+  padding-bottom: 60px;
+}
+
+.final-letter-content {
+  max-width: 800px;
+  margin: 0 auto;
+  text-align: center;
+}
+
+.letter-giant-title {
+  font-family: var(--font-display);
+  font-size: clamp(2.5rem, 5vw, 4.2rem);
+  font-weight: 800;
+  color: var(--ink-primary);
+  line-height: 1.05;
+  letter-spacing: -0.03em;
+  margin-bottom: 20px;
+}
+
+.title-sub-serif {
+  font-family: var(--font-serif);
+  font-style: italic;
+  font-weight: 400;
+  color: var(--ink-botanical);
+}
+
+.letter-intro-prose {
+  font-family: var(--font-serif);
+  font-size: 1.35rem;
+  color: var(--ink-charcoal);
+  line-height: 1.6;
+  max-width: 660px;
+  margin: 0 auto 36px;
+}
+
+.email-invitation-box {
+  display: flex;
+  justify-content: center;
+  margin-bottom: 48px;
+}
+
+.email-pill {
+  display: inline-flex;
+  align-items: center;
+  gap: 14px;
+  background: #FFFFFF;
+  border: 1px solid rgba(45, 106, 79, 0.25);
+  border-radius: var(--radius-pill);
+  padding: 8px 10px 8px 22px;
+  box-shadow: 0 6px 18px rgba(0, 0, 0, 0.08);
+}
+
+.email-envelope-icon {
+  font-size: 1.1rem;
+  color: var(--ink-botanical);
+}
+
+.email-address-text {
+  font-family: var(--font-sans);
+  font-size: 0.9375rem;
+  font-weight: 600;
+  color: var(--ink-primary);
+}
+
+.email-write-btn {
+  background: var(--ink-forest);
+  color: #FFFFFF;
+  font-size: 0.8125rem;
+  font-weight: 600;
+  padding: 8px 18px;
+  border-radius: var(--radius-pill);
+  letter-spacing: 0.04em;
+  transition: background 0.2s ease;
+}
+
+.email-write-btn:hover {
+  background: var(--ink-botanical);
+}
+
+.elsewhere-section {
+  max-width: 500px;
+  margin: 0 auto 32px;
+  text-align: left;
+}
+
+.elsewhere-label {
+  display: block;
+  font-size: 0.6875rem;
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+  color: var(--ink-dim);
+  font-weight: 700;
+  margin-bottom: 12px;
+  border-bottom: 1px solid rgba(45, 106, 79, 0.15);
+  padding-bottom: 4px;
+}
+
+.elsewhere-list {
+  display: flex;
+  flex-direction: column;
+}
+
+.elsewhere-item {
+  display: flex;
+  align-items: center;
+  padding: 12px 0;
+  border-bottom: 1px solid rgba(45, 106, 79, 0.08);
+  font-family: var(--font-display);
+  font-size: 1.35rem;
+  color: var(--ink-primary);
+  transition: all 0.2s ease;
+}
+
+.elsewhere-item:hover {
+  color: var(--ink-botanical);
+  transform: translateX(6px);
+}
+
+.link-idx {
+  font-size: 0.875rem;
+  color: var(--ink-dim);
+  margin-right: 20px;
+  font-family: var(--font-sans);
+}
+
+.link-arrow {
+  margin-left: auto;
+  font-size: 1.1rem;
+}
+
+.location-stamp {
+  font-size: 0.75rem;
+  letter-spacing: 0.15em;
+  color: var(--ink-dim);
+  font-weight: 700;
+  margin-bottom: 36px;
+}
+
+.fin-signature-block {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 8px;
+}
+
+.botanical-lotus-motif {
+  margin-bottom: 4px;
+}
+
+.fin-text {
+  font-family: var(--font-serif);
+  font-style: italic;
+  font-size: 1.25rem;
+  color: var(--ink-dim);
+}
+
+.fin-hand-name {
+  font-family: var(--font-hand);
+  font-size: 3rem;
+  font-weight: 700;
+  color: var(--ink-botanical);
+  line-height: 1;
+}
+
+/* Deep Pond Footer */
+.deep-pond-footer {
+  background-color: var(--pond-abyss);
+  padding: 60px 24px 80px;
+  position: relative;
+  overflow: hidden;
+}
+
+.footer-crest-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 40px;
+  position: relative;
+  z-index: 2;
+}
+
+.footer-brand {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+}
+
+.footer-copy-text {
+  font-size: 0.75rem;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: #74c69d;
+  font-weight: 600;
+}
+
+.footer-bull {
+  margin: 0 6px;
+  color: #40916c;
+}
+
+.back-to-top-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  font-size: 0.75rem;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: #b7e4c7;
+  font-weight: 600;
+  transition: color 0.2s ease;
+}
+
+.top-arrow-circle {
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  border: 1px solid rgba(82, 183, 136, 0.4);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #b7e4c7;
+  font-size: 1rem;
+}
+
+.back-to-top-btn:hover {
+  color: #FFFFFF;
+}
+
+.watermark-relief {
+  font-family: var(--font-display);
+  font-size: clamp(3.5rem, 12vw, 9.5rem);
+  font-weight: 900;
+  color: rgba(10, 46, 30, 0.45);
+  letter-spacing: 0.08em;
+  text-align: center;
+  line-height: 0.9;
+  user-select: none;
+  pointer-events: none;
+  margin-top: 30px;
+}
+
+/* --------------------------------------------------------------------------
+   13. Full-Screen Parchment Menu Overlay (Pure CSS :target)
+   -------------------------------------------------------------------------- */
+.menu-parchment-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  z-index: 2000;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  opacity: 0;
+  visibility: hidden;
+  transition: opacity 0.3s ease, visibility 0.3s ease;
+  padding: 24px;
+}
+
+.menu-parchment-overlay:target {
+  opacity: 1;
+  visibility: visible;
+}
+
+.overlay-backdrop {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(2, 11, 7, 0.85);
+  backdrop-filter: blur(12px);
+  cursor: default;
+}
+
+.overlay-sheet {
+  background: var(--paper-cream);
+  color: var(--ink-primary);
+  max-width: 600px;
+  width: 100%;
+  border-radius: var(--radius-sheet);
+  padding: 48px;
+  box-shadow: var(--shadow-sheet);
+  position: relative;
+  z-index: 5;
+  transform: scale(0.96);
+  transition: transform 0.3s ease;
+  border: 1px solid rgba(45, 106, 79, 0.2);
+}
+
+.menu-parchment-overlay:target .overlay-sheet {
+  transform: scale(1);
+}
+
+.overlay-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 24px;
+}
+
+.overlay-tag {
+  font-size: 0.75rem;
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+  color: var(--ink-botanical);
+  font-weight: 700;
+}
+
+.overlay-close-btn {
+  font-size: 2rem;
+  color: var(--ink-secondary);
+  line-height: 1;
+}
+
+.overlay-close-btn:hover {
+  color: var(--ink-forest);
+}
+
+.overlay-chapter-list {
+  display: flex;
+  flex-direction: column;
+}
+
+.chapter-link {
+  display: flex;
+  align-items: baseline;
+  padding: 14px 0;
+  border-bottom: 1px dashed rgba(45, 106, 79, 0.2);
+  color: var(--ink-primary);
+  transition: all 0.2s ease;
+}
+
+.chapter-link:hover {
+  color: var(--ink-botanical);
+  transform: translateX(8px);
+}
+
+.ch-roman {
+  font-family: var(--font-display);
+  font-size: 1.1rem;
+  color: var(--ink-dim);
+  width: 40px;
+}
+
+.ch-title {
+  font-family: var(--font-display);
+  font-size: 1.5rem;
+  font-weight: 700;
+}
+
+.ch-page {
+  margin-left: auto;
+  font-family: var(--font-serif);
+  font-style: italic;
+  font-size: 1rem;
+  color: var(--ink-dim);
+}
+
+.overlay-footer-note {
+  margin-top: 24px;
+  font-family: var(--font-serif);
+  font-style: italic;
+  font-size: 0.9375rem;
+  color: var(--ink-dim);
+  text-align: center;
+}
+
+/* --------------------------------------------------------------------------
+   14. Responsive Queries
+   -------------------------------------------------------------------------- */
+@media (max-width: 1024px) {
+  .about-editorial-grid {
+    grid-template-columns: 1fr;
+    gap: 40px;
+  }
+
+  .about-portrait-column {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+
+  .polaroid-frame {
+    max-width: 340px;
+    width: 100%;
+  }
+
+  .margin-annotation {
+    max-width: 450px;
+  }
+
+  .broadsheet-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .mat-fragments-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  .r-columns-layout {
+    grid-template-columns: 1fr;
+  }
+}
+
+@media (max-width: 768px) {
+  .pill-nav {
+    display: none; /* Accessible via Menu Button */
+  }
+
+  .parchment-sheet {
+    padding: 36px 24px;
+  }
+
+  .page-metric-ribbon {
+    grid-template-columns: 1fr;
+    gap: 12px;
+  }
+
+  .mat-surface {
+    padding: 24px 16px;
+  }
+
+  .mat-sticky-note {
+    position: static;
+    width: 100%;
+    margin-bottom: 30px;
+    transform: none;
+  }
+
+  .mat-fragments-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .botanical-timeline {
+    padding: 20px 0;
+  }
+
+  .vine-line {
+    left: 20px;
+  }
+
+  .timeline-leaf {
+    width: 100%;
+    left: 0;
+    padding-left: 56px;
+    padding-right: 0;
+    text-align: left;
+  }
+
+  .leaf-node {
+    left: 4px !important;
+    right: auto !important;
+  }
+
+  .resume-paper-header {
+    flex-direction: column;
+    gap: 16px;
+  }
+
+  .r-top-right {
+    align-items: flex-start;
+  }
+
+  .footer-crest-row {
+    flex-direction: column;
+    gap: 20px;
+    text-align: center;
+  }
+}
+
+/* --------------------------------------------------------------------------
+   15. Print Stylesheet (@media print)
+   -------------------------------------------------------------------------- */
+@media print {
+  body {
+    background: #FFFFFF !important;
+    color: #111827 !important;
+  }
+
+  .floating-header,
+  .pond-ripple,
+  .koi-fish,
+  .lily-pad,
+  .scotch-tape,
+  .menu-parchment-overlay,
+  .deep-pond-footer,
+  .notebook-index-tabs,
+  .resume-download-btn {
+    display: none !important;
+  }
+
+  .chapter-pond,
+  .chapter-sheet-wrap,
+  .cutting-mat-chapter {
+    background: #FFFFFF !important;
+    padding: 0 !important;
+  }
+
+  .parchment-sheet,
+  .notebook-desk,
+  .mat-surface,
+  .resume-sheet-paper {
+    background: #FFFFFF !important;
+    color: #111827 !important;
+    box-shadow: none !important;
+    border: none !important;
+    padding: 0 !important;
+  }
+}
